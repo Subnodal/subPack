@@ -1,0 +1,20 @@
+{
+    "name": "subpack",
+    "version": "0.1.0",
+    "description": "Command-line tool to package and bundle subModules libraries.",
+    "main": "main.js",
+    "keywords": [
+        "bundler",
+        "package",
+        "module",
+        "submodules"
+    ],
+    "author": "Subnodal Technologies (https://subnodal.com)",
+    "dependencies": {
+        "yargs": "^16.2.0",
+        "terser": "^5.5.1"
+    },
+    "bin": {
+        "subpack": "main.js"
+    }
+}

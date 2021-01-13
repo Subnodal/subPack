@@ -1,0 +1,7 @@
+{
+    "identifier": "com.subnodal.example.subpack",
+    "modules": [
+        "a.js",
+        "b.js"
+    ]
+}

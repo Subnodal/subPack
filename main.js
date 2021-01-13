@@ -41,12 +41,9 @@ const options = yargs
     })
 ;
 
-if (options.indir) {
-    config.data.indir = options.indir;
-}
-
 config.init();
 
+config.data.indir = options.indir || config.data.indir || ".";
 config.data.outdir = options.outdir || config.data.outdir || path.join(config.data.indir, "build");
 config.data.submoduleless = !!(options.submoduleless || config.data.submoduleless);
 

@@ -74,10 +74,10 @@ if (!config.data.dependencies) {
 }
 
 if (!config.data.submoduleless) {
-    config.data.dependencies.push("https://cdn.subnodal.com/lib/submodules.min.js");
+    config.data.dependencies.unshift("https://cdn.subnodal.com/lib/submodules.min.js");
 }
 
-bundler.bundle(config.data.indir, [...config.data.modules, ...config.data.dependencies]).then(function(bundledCode) {
+bundler.bundle(config.data.indir, [...config.data.dependencies, ...config.data.modules]).then(function(bundledCode) {
     terser.minify(bundledCode).then(function(minifiedCode) {
         if (!fs.existsSync(config.data.outdir)) {
             fs.mkdirSync(config.data.outdir);

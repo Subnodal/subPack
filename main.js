@@ -34,6 +34,11 @@ const options = yargs
         alias: "configfile",
         describe: "Location of config file to use; subpack.json in the root of the input directory will otherwise be used"
     })
+    .option("n", {
+        type: "string",
+        alias: "outname",
+        describe: "Name of .min.js file to use after bundling and minfying"
+    })
     .option("m", {
         type: "boolean",
         alias: "submoduleless",
@@ -74,12 +79,14 @@ if (!config.data.submoduleless) {
     config.data.dependencies.unshift("https://cdn.subnodal.com/lib/submodules.min.js");
 }
 
+config.data.outname = options.outname || config.data.outname || config.data.identifier.split(".")[config.data.identifier.split(".").length - 1];
+
 bundler.bundle(config.data.indir, [...config.data.dependencies, ...config.data.modules]).then(function(bundledCode) {
     terser.minify(bundledCode).then(function(minifiedCode) {
         if (!fs.existsSync(config.data.outdir)) {
             fs.mkdirSync(config.data.outdir);
         }
 
-        fs.writeFileSync(path.join(config.data.outdir, config.data.identifier.split(".")[config.data.identifier.split(".").length - 1] + ".min.js"), minifiedCode.code);
+        fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), minifiedCode.code);
     });
 });

@@ -44,6 +44,7 @@ const options = yargs
         alias: "submoduleless",
         describe: "Don't include a copy of subModules in bundle"
     })
+    .argv
 ;
 
 config.init();

@@ -38,9 +38,17 @@ exports.bundle = function(rootDirectory, pathsToBundle) {
             if (isUrl(resolvedPath)) {
                 unbundledCodePromises.push(new Promise(function(resolve, reject) {
                     https.get(resolvedPath, function(response) {
+                        response.setEncoding("utf8");
+
                         if (response.statusCode >= 200 && response.statusCode < 300) {
+                            var data = "";
+
                             response.on("data", function(chunk) {
-                                resolve(chunk);
+                                data += chunk;
+                            });
+
+                            response.on("end", function() {
+                                resolve(data);
                             });
                         } else {
                             console.warn(`Could not resolve path ${pathsToBundle[i]} (status code ${response.statusCode}), and so it was skipped`);

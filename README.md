@@ -20,7 +20,7 @@ $ subpack
 ## Writing `subpack.json`
 Here's an example of `subpack.json`:
 
-```
+```json
 {
     "identifier": "com.example.mymodule",
     "modules": [

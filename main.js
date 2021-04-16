@@ -88,10 +88,6 @@ if (!config.data.devDependencies) {
     process.exit(1);
 }
 
-if (!config.data.submoduleless) {
-    config.data.dependencies.unshift("https://cdn.subnodal.com/lib/submodules.min.js");
-}
-
 if (options.dev) {
     config.data.dependencies = config.data.dependencies.concat(config.data.devDependencies);
 }
@@ -100,11 +96,18 @@ config.data.outname = options.outname || config.data.outname || config.data.iden
 
 bundler.bundle(config.data.indir, [...config.data.dependencies, ...config.data.modules]).then(function(bundledCode) {
     fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), bundledCode);
+
     terser.minify(bundledCode).then(function(minifiedCode) {
         if (!fs.existsSync(config.data.outdir)) {
             fs.mkdirSync(config.data.outdir);
         }
 
-        fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), minifiedCode.code);
+        if (!config.data.submoduleless) {
+            bundler.bundle(config.data.indir, ["https://cdn.subnodal.com/lib/submodules.min.js"]).then(function(bundledSubmodulesCode) {
+                fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), bundledSubmodulesCode + minifiedCode.code);
+            });
+        } else {
+            fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), minifiedCode.code);
+        }
     });
 });

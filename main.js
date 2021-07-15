@@ -12,6 +12,7 @@
 const yargs = require("yargs");
 const terser = require("terser");
 const path = require("path");
+const mkdirp = require("mkdirp");
 const fs = require("fs");
 
 var config = require("./config");
@@ -95,6 +96,7 @@ if (options.dev) {
 config.data.outname = options.outname || config.data.outname || config.data.identifier.split(".")[config.data.identifier.split(".").length - 1];
 
 bundler.bundle(config.data.indir, [...config.data.dependencies, ...config.data.modules]).then(function(bundledCode) {
+    mkdirp.sync(path.resolve(config.data.outdir));
     fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), bundledCode);
 
     terser.minify(bundledCode).then(function(minifiedCode) {

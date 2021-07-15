@@ -11,8 +11,9 @@
     ],
     "author": "Subnodal Technologies (https://subnodal.com)",
     "dependencies": {
-        "yargs": "^16.2.0",
-        "terser": "^5.5.1"
+        "mkdirp": "^1.0.4",
+        "terser": "^5.5.1",
+        "yargs": "^16.2.0"
     },
     "bin": {
         "subpack": "main.js"

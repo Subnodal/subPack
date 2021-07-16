@@ -70,7 +70,7 @@ exports.bundle = function(rootDirectory, pathsToBundle) {
     }
 
     return Promise.all(unbundledCodePromises).then(function(data) {
-        return Promise.resolve(data.join(""));
+        return Promise.resolve(data.join("\n"));
     }).catch(function() {
         console.error("A critical error occurred while trying to bundle");
         process.exit(1);

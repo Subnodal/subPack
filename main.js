@@ -111,5 +111,8 @@ bundler.bundle(config.data.indir, [...config.data.dependencies, ...config.data.m
         } else {
             fs.writeFileSync(path.join(config.data.outdir, config.data.outname + ".min.js"), minifiedCode.code);
         }
+    }).catch(function(error) {
+        console.error(`Error: ${error.message}\nAt code:\n${bundledCode.substring(error.pos - 50, error.pos)}[HERE]${bundledCode.substring(error.pos, error.pos + 50)}`);
+        process.exit(1);
     });
 });
